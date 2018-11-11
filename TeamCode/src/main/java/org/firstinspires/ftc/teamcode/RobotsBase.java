@@ -12,18 +12,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Disabled
 public abstract class RobotsBase extends LinearOpMode
 {
-    public abstract void DefineOpMode();
-
     public DcMotor leftDrive;
     public DcMotor rightDrive;
     public DcMotor leftArm;
     public DcMotor rightArm;
     public DcMotor armRaiser;
 
+    public abstract void DefineOpMode();
 
-
+    public double inchConstantActual = 1;
     public int inchConstant = 1;
+    public double degConstantActual = 1;
     public int degConstant = 1;
+
+    public int thingsInBot = 0;
 
     public boolean RobotIsGoingForwards = true;
 
