@@ -14,6 +14,8 @@ public class VoltAutoCrater extends VoltageBaseAutonomous{
         TurnLeftDegrees(1,30);
         DriveBackwardsDistance(1,4);
         TurnRightDegrees(1,30);
+        telemetry.addData("Step 1 Executed", "Run Time: " + runtime.toString());
+        telemetry.update();
 
         //STEP 2 = Drive to wall and orient
         TurnLeftDegrees(1,45);
