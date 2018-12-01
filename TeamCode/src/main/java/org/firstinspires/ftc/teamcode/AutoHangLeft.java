@@ -7,24 +7,20 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(group = "Sprockets", name = "Basic Left")
-public class AutoHangLeft extends RobotsBase
+public class AutoHangLeft extends SprocketsBaseAutonomous
 {
-    public void DefineOpMode ()
+    public void DriveTheRobot ()
     {
-        waitForStart();
-
-        OffTheLander();
-
         TurnLeftDegrees(AutonomousBaseSpeed, 45);
 
-        DriveForwardsDistance(AutonomousBaseSpeed, 90);
+        DriveForwardsDistance(AutonomousBaseSpeed, 45);
 
         TurnRightDegrees(AutonomousBaseSpeed, 90);
 
-        DriveForwardsDistance(AutonomousBaseSpeed, 60);
+        DriveForwardsDistance(AutonomousBaseSpeed, 40);
 
         DropMarker();
 
-        DriveBackwards(AutonomousBaseSpeed, 84);
+        DriveBackwards(AutonomousBaseSpeed, 80);
     }
 }

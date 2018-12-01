@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Benla on 10/14/2018.
@@ -21,62 +22,21 @@ Right Stick Up/Down = arms extend/retract
  */
 
 
-@TeleOp (group = "Sprockets", name = "TeleOp")
+@TeleOp (group = "Sprockets", name = "SrpktTeleOp")
 public class SprocketsTeleOp extends RobotsBase
 {
     @Override
     public void DefineOpMode ()
     {
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         waitForStart();
 
         while (opModeIsActive())
         {
             leftDrive.setPower(-gamepad1.left_stick_y/2);
             rightDrive.setPower(-gamepad1.right_stick_y/2);
-
-            leftArm.setPower(-gamepad2.left_stick_y/2);
-            rightArm.setPower(-gamepad2.left_stick_y/2);
-
-            armRaiser.setPower(-gamepad2.right_stick_y/4);
-
-
-            if (LeftClawClosed = false)
-            {
-                if (gamepad2.left_bumper)
-                {
-                    leftClaw.setPosition(LeftClawClosedPosition);
-
-                    LeftClawClosed = true;
-                }
-
-            } else
-            {
-                if (gamepad2.left_bumper)
-                {
-                    leftClaw.setPosition(LeftClawOpenPosition);
-
-                    LeftClawClosed = false;
-                }
-            }
-
-            if (RightClawClosed = false)
-            {
-                if (gamepad2.right_bumper)
-                {
-                    rightClaw.setPosition(RightClawClosedPosition);
-
-                    RightClawClosed = true;
-                }
-
-            } else
-            {
-                    if (gamepad2.right_bumper)
-                    {
-                        rightClaw.setPosition(RightClawOpenPosition);
-
-                        RightClawClosed = false;
-                    }
-            }
 
             telemetry.update();
 

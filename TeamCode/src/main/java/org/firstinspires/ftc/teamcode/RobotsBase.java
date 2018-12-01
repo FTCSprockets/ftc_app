@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.lang.InterruptedException;
+
 /**
  * Created by Benla on 10/14/2018.
  */
@@ -15,9 +17,6 @@ public abstract class RobotsBase extends LinearOpMode
 {
     public DcMotor leftDrive;
     public DcMotor rightDrive;
-    public DcMotor leftArm;
-    public DcMotor rightArm;
-    public DcMotor armRaiser;
 
     public Servo leftClaw;
     public Servo rightClaw;
@@ -26,45 +25,38 @@ public abstract class RobotsBase extends LinearOpMode
 
     public static final int inchConstant = 22; // this is a little low, so add a few inches to any long-distance value.
 
-    public static final int degConstant = 1;
+    public static final int degConstant = 3; // this is high so subtract a few
 
     public static final double AutonomousBaseSpeed = 0.5;
 
     public boolean RobotIsGoingForwards = true;
 
     public double LeftClawOpenPosition = 0;
-    public double LeftClawClosedPosition = 1;
+    public double LeftClawClosedPosition = .5;
+    public double LeftClawBackPosition = 1;
 
     public double RightClawOpenPosition = 1;
-    public double RightClawClosedPosition = 0;
-
-    public boolean LeftClawClosed = false;
-    public boolean RightClawClosed = false;
+    public double RightClawClosedPosition = .5;
+    public double RightClawBackPosition = 0;
 
     @Override
-    public void runOpMode()
+    public void runOpMode() throws InterruptedException
     {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         leftDrive = hardwareMap.dcMotor.get("leftDrive");
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
-        leftArm = hardwareMap.dcMotor.get("leftArm");
-        rightArm = hardwareMap.dcMotor.get("rightArm");
-        armRaiser =  hardwareMap.dcMotor.get("armRaiser");
 
         leftClaw = hardwareMap.servo.get("leftClaw");
         rightClaw = hardwareMap.servo.get("rightClaw");
 
 
-        rightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        waitForStart();
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         DefineOpMode();
     }
@@ -99,14 +91,9 @@ public abstract class RobotsBase extends LinearOpMode
         }
     }
 
-
     public void OffTheLander ()
     {
-        CollectorUpAndOut();
 
-        DriveForwardsDistance(0.5, 3);
-
-        CollectorBackAndIn();
     }
 
 
@@ -197,8 +184,8 @@ public abstract class RobotsBase extends LinearOpMode
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftDrive.setTargetPosition(-degrees/degConstant);
-        rightDrive.setTargetPosition(degrees/degConstant);
+        leftDrive.setTargetPosition(-degrees*degConstant);
+        rightDrive.setTargetPosition(degrees*degConstant);
 
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -221,8 +208,8 @@ public abstract class RobotsBase extends LinearOpMode
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftDrive.setTargetPosition(degrees/degConstant);
-        rightDrive.setTargetPosition(-degrees/degConstant);
+        leftDrive.setTargetPosition(degrees*degConstant);
+        rightDrive.setTargetPosition(-degrees*degConstant);
 
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -240,68 +227,13 @@ public abstract class RobotsBase extends LinearOpMode
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-
-    //Arm Methods
-
-    public void ArmsUp ()
+    public void ClawOut ()
     {
-        leftArm.setPower(0.8);
-        rightArm.setPower(0.8);
-        Thread.sleep(2000);
 
-        while (leftArm.isBusy() && rightArm.isBusy())
-        {
-            armRaiser.setPower(-0.1);
-        }
-
-        leftArm.setPower(0);
-        rightArm.setPower(0);
     }
-
-    public void ArmsDown ()
-    {
-        leftArm.setPower(-0.25);
-        rightArm.setPower(-0.25);
-        Thread.sleep(2000);
-
-        while (leftArm.isBusy()&& rightArm.isBusy())
-        {
-            armRaiser.setPower(0.1);
-        }
-
-        leftArm.setPower(0);
-        rightArm.setPower(0);
-    }
-
-    public void CollectorUpAndOut ()
-    {
-        armRaiser.setPower(0.5);
-        Thread.sleep(1000);
-        armRaiser.setPower(0);
-    }
-
-    public void CollectorBackAndIn ()
-    {
-        armRaiser.setPower(-0.5);
-        Thread.sleep(1000);
-        armRaiser.setPower(0);
-}
 
     public void DropMarker ()
     {
 
     }
-
-    public void CollectAThing ()
-    {
-
-
-    }
-
-    public void DumpAndReset ()
-    {
-
-    }
-
-
 }
