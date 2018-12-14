@@ -49,10 +49,10 @@ public abstract class VoltageBase extends LinearOpMode{
     public abstract void DefineOpMode();
 
     //Variables for servo mineral Arm
-    public final static double mineralArm_Ground = 0; //all the way down for servo
-    public final static double mineralArm_Low = 0.9; // move to about 36 degrees.
-    public final static double mineralArm_Raised =  0.5; // Raised vertical
-    public final static double mineralArm_Dump = 0.4; //move to Dump
+    public final static double mineralArm_Ground = 0.0; //all the way down for servo
+    public final static double mineralArm_Low = 0.2; // move up to collect balls
+    public final static double mineralArm_Raised =  0.6; // Raised vertical
+    public final static double mineralArm_Dump = 1.0; //move to Dump
 
     // Define class members
 

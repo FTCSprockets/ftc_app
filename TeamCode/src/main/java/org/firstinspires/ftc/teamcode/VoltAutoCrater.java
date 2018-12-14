@@ -34,6 +34,7 @@ public class VoltAutoCrater extends VoltageBaseAutonomous{
 
         //STEP 6 = Park in Crater
         DriveForwardsDistance(0.5,4);
+        idle();
 
     }
 }
