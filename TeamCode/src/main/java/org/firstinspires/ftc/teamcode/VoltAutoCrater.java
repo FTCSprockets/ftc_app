@@ -26,8 +26,8 @@ public class VoltAutoCrater extends VoltageBaseAutonomous{
         DriveBackwardsDistance(1, 12);
 
         //STEP 4 = Place team marker
-        mineralArm.setPosition(topPOS);
-        mineralArm.setPosition(mineralRaisedPOS);
+        mineralArm.setPosition(mineralArm_Dump);
+        mineralArm.setPosition(mineralArm_Raised);
 
         //STEP 5 = Drive forward into crater
         DriveForwardsDistance(1,20);

@@ -1,11 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.Locale;
+
+//public void myvoid () throws InterruptedException
 
 @Disabled
 public abstract class VoltageBase extends LinearOpMode{
@@ -19,33 +29,33 @@ public abstract class VoltageBase extends LinearOpMode{
     //Declare Servos
     public Servo mineralArm;
 
+    //Declare Sensor for turning
+    BNO055IMU imu;
+    Orientation angles;
+
     //Variables or any other data you will use later here
     public final static int Core_EncoderTicksperRevolution = (288/1);
-    public final static int HD_EncoderTicksperRevolution = (2240/1);
+    public final static int HD_EncoderTicksperRevolution = (1120/1);
+
     public final static double one_revolutionperInchDistanceofDrive = (1/0.7539822369); //60mm diameter to inches times pi = wheel circumference"
 
-    public final static int stringInches = 6; //length of pulley string in inches //check
+    public final static double stringInches = 5.50;//15.25 to9.75//length of pulley string in inches //check
     public double one_RevolutionperInchDistanceofPulley = (1/1.5); //distance or circumference of string w/ each revolution //check
     public double liftTicksPerInch = (one_RevolutionperInchDistanceofPulley*HD_EncoderTicksperRevolution);
     public double driveTicksPerInch = (one_revolutionperInchDistanceofDrive*Core_EncoderTicksperRevolution);
-    public final static int HD_EncoderExtendedPosition = stringInches*2240;
-
+    public final static double HD_EncoderExtendedPosition = stringInches*1120;
     public double driveDegreeToTicks = (1/360)*(Core_EncoderTicksperRevolution);  //and this to the ratio between ticks and turn degrees.
     public boolean RobotIsGoingForwards = true;
     public abstract void DefineOpMode();
 
     //Variables for servo mineral Arm
-    public final static double mineralArm_Home = 0.99; //all the way down for servo
-    static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final int    CYCLE_MS    =   50;     // period of each cycle    sleep(CYCLE_MS);
-    static final double topPOS      =  0.0;     // Maximum rotational position
-    static final double bottomPOS   =  1.0;     // Minimum rotational position
-    static final double mineralReadyPOS =  0.1; // move to about 162 degrees.
-    static final double mineralRaisedPOS =  0.8; // move to about 36 degrees.
+    public final static double mineralArm_Ground = 0; //all the way down for servo
+    public final static double mineralArm_Low = 0.9; // move to about 36 degrees.
+    public final static double mineralArm_Raised =  0.5; // Raised vertical
+    public final static double mineralArm_Dump = 0.4; //move to Dump
 
     // Define class members
-    double  mineralPosition = (bottomPOS - topPOS); // Start at bottom position
-    boolean rampUp = true;
+
 
     @Override
     public void runOpMode() {
@@ -66,15 +76,15 @@ public abstract class VoltageBase extends LinearOpMode{
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); //Check motors, but left and right should be the same in this case
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
-        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Don't move if they're not supposed to
-        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        mineralArm.setPosition(mineralArm_Home);
+        //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        mineralArm.setPosition(mineralArm_Ground);
 
         //If Using Encoders
         leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -83,7 +93,7 @@ public abstract class VoltageBase extends LinearOpMode{
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//Encoder set to zero at complete contract position
 
         // Some of the servos are flipped, too
-        mineralArm.setDirection(Servo.Direction.REVERSE); //Check
+        mineralArm.setDirection(Servo.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         DefineOpMode();
@@ -145,9 +155,10 @@ public abstract class VoltageBase extends LinearOpMode{
         DriveMotors(0);
     }
 
-    public void DriveForwardsDistance(double speed, double inches) {
+    public void DriveForwardsDistance(double speed, int inches) {
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         leftDrive.setTargetPosition((int)Math.round(inches*Core_EncoderTicksperRevolution));
         rightDrive.setTargetPosition((int)Math.round(inches*Core_EncoderTicksperRevolution));
 
@@ -258,7 +269,6 @@ public abstract class VoltageBase extends LinearOpMode{
 
     public void completeHookExtend(double speed_1, double inches) {
         liftMotor.setPower(-speed_1);
-        //liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setTargetPosition((int)Math.round(inches * stringInches*one_RevolutionperInchDistanceofPulley*HD_EncoderTicksperRevolution)); //stringInches = length of string
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -273,12 +283,15 @@ public abstract class VoltageBase extends LinearOpMode{
 
     public void completeHookContract(double speed_1) {
         liftMotor.setPower(speed_1);
-        //liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setTargetPosition(0); //Check
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        int i = 0;
         while (liftMotor.isBusy() ) {
+            telemetry.addData("Loop", i);
+            i+=1;
+            telemetry.update();
             //Wait until the target position is reached
         }
         //Stop and change modes back to normal
@@ -293,4 +306,27 @@ public abstract class VoltageBase extends LinearOpMode{
         mineralArm.setPosition(.80);
     }
 
+
+    //Anthony from Catholic Master Builders way to turn w/ encoders
+    public double IMU_calibration(){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit  = BNO055IMU.AngleUnit.DEGREES;
+        parameters.calibrationDataFile = "RoverRuckusIMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        imu = hardwareMap.get(BNO055IMU.class,"imu");
+        imu.initialize(parameters);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return angles.firstAngle;
+
+    }
+    //left over stuff from Anthony
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
 }

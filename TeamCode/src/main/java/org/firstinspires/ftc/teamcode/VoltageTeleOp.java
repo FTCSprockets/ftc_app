@@ -25,34 +25,23 @@ public class VoltageTeleOp extends VoltageBase
 
 
             // Mineral arm servo movement
-            if(gamepad2.y) {
-                // move to about 36 degrees.
-                mineralArm.setPosition(mineralRaisedPOS);
+            if(gamepad2.x) {
+                mineralArm.setPosition(mineralArm_Dump);
                 telemetry.addData("Servo Position", mineralArm.getPosition());
                 telemetry.update();
-            } else if (gamepad2.x) {
+            }
+            if (gamepad2.y) {
                 // move to about 162 degrees.
-                mineralArm.setPosition(mineralReadyPOS);
+                mineralArm.setPosition(mineralArm_Raised);
                 telemetry.addData("Servo Position", mineralArm.getPosition());
                 telemetry.update();
-            } else if (gamepad2.b && mineralPosition<topPOS) {
-                    // Keep stepping up until we hit the max position 0º
-                    mineralPosition += INCREMENT ;
-                    if (mineralPosition >= topPOS ) {
-                        mineralPosition = topPOS;
-                        rampUp = !rampUp;   // Switch ramp direction
-                    }
-                mineralArm.setPosition(mineralPosition);  // Set the servo to the new position
+            }
+            if (gamepad2.b) {
+                mineralArm.setPosition(mineralArm_Low);  // Set the servo to the new position
                 telemetry.addData("Servo Position", mineralArm.getPosition());
                 telemetry.update();
-            } else if (gamepad2.b && mineralPosition>bottomPOS) {
-                    // Keep stepping down until we hit the min position 180º
-                    mineralPosition -= INCREMENT ;
-                    if (mineralPosition <= bottomPOS ) {
-                        mineralPosition = bottomPOS;
-                        rampUp = !rampUp;  // Switch ramp direction
-                    }
-                mineralArm.setPosition(mineralPosition);  // Set the servo to the new position
+            } if (gamepad2.a) {
+                mineralArm.setPosition(mineralArm_Ground);  // Set the servo to the new position
                 telemetry.addData("Servo Position", mineralArm.getPosition());
                 telemetry.update();
                 }
