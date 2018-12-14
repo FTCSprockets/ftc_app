@@ -34,8 +34,8 @@ public abstract class VoltageBase extends LinearOpMode{
     Orientation angles;
 
     //Variables or any other data you will use later here
-    public final static int Core_EncoderTicksperRevolution = (288/1);
-    public final static int HD_EncoderTicksperRevolution = (1120/1);
+    public final static int Core_EncoderTicksperRevolution = (288);
+    public final static int HD_EncoderTicksperRevolution = (1120);
 
     public final static double one_revolutionperInchDistanceofDrive = (1/0.7539822369); //60mm diameter to inches times pi = wheel circumference"
 
@@ -43,8 +43,8 @@ public abstract class VoltageBase extends LinearOpMode{
     public double one_RevolutionperInchDistanceofPulley = (1/1.5); //distance or circumference of string w/ each revolution //check
     public double liftTicksPerInch = (one_RevolutionperInchDistanceofPulley*HD_EncoderTicksperRevolution);
     public double driveTicksPerInch = (one_revolutionperInchDistanceofDrive*Core_EncoderTicksperRevolution);
-    public final static double HD_EncoderExtendedPosition = stringInches*1120;
-    public double driveDegreeToTicks = (1/360)*(Core_EncoderTicksperRevolution);  //and this to the ratio between ticks and turn degrees.
+    public final static int HD_EncoderExtendedPosition = 3000; //(int)(stringInches*HD_EncoderTicksperRevolution);
+    public double driveDegreeToTicks = (Core_EncoderTicksperRevolution / 360.0);  //and this to the ratio between ticks and turn degrees.
     public boolean RobotIsGoingForwards = true;
     public abstract void DefineOpMode();
 
