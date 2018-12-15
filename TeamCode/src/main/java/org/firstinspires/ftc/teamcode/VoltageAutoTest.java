@@ -86,10 +86,14 @@ public class VoltageAutoTest extends LinearOpMode {
             idle();
         }
 
+        mineralArm.setPosition(1);
+
         leftDrive.setPower(0.0);
         rightDrive.setPower(0.0);
         telemetry.addData("Mode", "stopped driving");
         telemetry.update();
-        mineralArm.setPosition(1);
+
+
+
     }
 }

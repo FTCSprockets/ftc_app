@@ -84,10 +84,10 @@ public class VoltageTeleOp extends VoltageBase
 
             //Backup hook attachment
             if (gamepad2.dpad_left) {
-                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()+50);
+                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()-50);
             }
             if (gamepad2.dpad_right) {
-                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()-50);
+                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()+50);
             }
         }
 

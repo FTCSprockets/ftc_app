@@ -70,8 +70,8 @@ public class VoltageAutoTest2 extends LinearOpMode {
 //        rightDrive.setPower(0.0);
 
 
-        leftDrive.setTargetPosition(leftstartpos - 1385); //About 45" acutally more like 47
-        rightDrive.setTargetPosition(rightstartpos - 1385);
+        leftDrive.setTargetPosition(leftstartpos - 1194); //About 45" acutally more like 47 1385
+        rightDrive.setTargetPosition(rightstartpos - 1194);
         telemetry.addData("Run", "2000");
         telemetry.update();
 

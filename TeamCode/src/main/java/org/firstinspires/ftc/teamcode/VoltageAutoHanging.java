@@ -70,7 +70,7 @@ public class VoltageAutoHanging extends LinearOpMode {
 //        leftDrive.setPower(0.0);
 //        rightDrive.setPower(0.0);
 
-        liftMotor.setTargetPosition(liftStartPos+100);
+        liftMotor.setTargetPosition(liftStartPos+1020);
         liftMotor.setPower(1);
         while (opModeIsActive() && liftMotor.isBusy());
         {
