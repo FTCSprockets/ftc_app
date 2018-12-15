@@ -6,10 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Drive Forward", group="Test")
-//@Disabled
-public class VoltageAutoTest extends LinearOpMode
-{
+@Autonomous(name="Hanging", group="Autonomous")
+public class VoltageAutoHanging extends LinearOpMode {
     public ElapsedTime runtime = new ElapsedTime();
     //Declare Motors
     public DcMotor leftDrive;
@@ -22,8 +20,7 @@ public class VoltageAutoTest extends LinearOpMode
     // called when init button is  pressed.
 
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() {
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
@@ -34,7 +31,9 @@ public class VoltageAutoTest extends LinearOpMode
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        mineralArm.setPosition(0);
+        mineralArm.setDirection(Servo.Direction.REVERSE);
+
+        mineralArm.setPosition(0.0);
 
         telemetry.addData("Mode", "waiting");
         telemetry.update();
@@ -46,12 +45,30 @@ public class VoltageAutoTest extends LinearOpMode
         telemetry.addData("Mode", "running");
         telemetry.update();
 
-        // set both motors to 25% power.
+//        // set both motors to 25% power.
+//        leftDrive.setPower(-0.25);
+//        rightDrive.setPower(-0.25);
 
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotor.setPower(1);
+
+        //extend hook
+        int liftStartPosition = liftMotor.getCurrentPosition();
+        liftMotor.setTargetPosition(liftMotor.getCurrentPosition() - 3100);
+
+        sleep(2000);        // wait for 2 seconds.
+
+        //move backwards
         leftDrive.setPower(-0.25);
         rightDrive.setPower(-0.25);
 
-        sleep(4050);        // wait for 2 seconds.
+        /*
+        extends hook
+        thendrivesnbackwards 4 inches
+        lower hook to starting position
+
+        */
+         liftStartPosition = liftMotor.getCurrentPosition();
 
         // set motor power to zero to stop motors.
 

@@ -13,6 +13,9 @@ public class VoltAutoCrater extends VoltageBaseAutonomous{
     {
         leftDrive.setTargetPosition(2000);
         rightDrive.setTargetPosition(2000);
+        telemetry.addData("DrivePosition", leftDrive.getTargetPosition());
+        telemetry.update();
+
         //STEP 1 = lower from lander
 //        completeHookExtend (.5, stringInches);
 //        TurnLeftDegrees(1,30);
