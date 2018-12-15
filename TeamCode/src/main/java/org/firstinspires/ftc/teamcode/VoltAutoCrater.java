@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 /**
  * Created by Robin on 11/11/2018.
  **/
 
 @Autonomous(group = "Voltage", name = "Crater Side")
+@Disabled
 public class VoltAutoCrater extends VoltageBaseAutonomous{
 
     @Override
@@ -15,6 +18,7 @@ public class VoltAutoCrater extends VoltageBaseAutonomous{
         rightDrive.setTargetPosition(2000);
         telemetry.addData("DrivePosition", leftDrive.getTargetPosition());
         telemetry.update();
+
 
         //STEP 1 = lower from lander
 //        completeHookExtend (.5, stringInches);

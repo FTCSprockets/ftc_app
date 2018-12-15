@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -23,6 +24,7 @@ Right Stick Up/Down = arms extend/retract
 
 
 @TeleOp (group = "Sprockets", name = "SrpktTeleOp")
+@Disabled
 public class SprocketsTeleOp extends RobotsBase
 {
     @Override

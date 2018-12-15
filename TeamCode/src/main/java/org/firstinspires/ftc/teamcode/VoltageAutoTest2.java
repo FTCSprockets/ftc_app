@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Claim Ground", group="Test")
+@Autonomous(name="Claim Crater", group="GroundAuto")
 //@Disabled
-public class VoltageAutoTest extends LinearOpMode {
+public class VoltageAutoTest2 extends LinearOpMode {
     public ElapsedTime runtime = new ElapsedTime();
     //Declare Motors
     public DcMotor leftDrive;
@@ -19,7 +19,7 @@ public class VoltageAutoTest extends LinearOpMode {
     public Servo mineralArm;
     public final static double mineralArm_Ground = 0.0; //all the way down for servo
 
-    //2000 ticks = 65"; // about 100 ticks = 3.35"
+    //2000 ticks = 65"; // about 100 ticks = 3.25"
 
     // called when init button is  pressed.
 
@@ -48,8 +48,8 @@ public class VoltageAutoTest extends LinearOpMode {
         telemetry.addData("Mode", "waiting");
         telemetry.update();
 
-         int leftstartpos = leftDrive.getCurrentPosition();
-         int rightstartpos = rightDrive.getCurrentPosition();
+        int leftstartpos = leftDrive.getCurrentPosition();
+        int rightstartpos = rightDrive.getCurrentPosition();
         // wait for start button.
 
         waitForStart();
@@ -70,8 +70,8 @@ public class VoltageAutoTest extends LinearOpMode {
 //        rightDrive.setPower(0.0);
 
 
-        leftDrive.setTargetPosition(leftstartpos - 1194);
-        rightDrive.setTargetPosition(rightstartpos - 1194);
+        leftDrive.setTargetPosition(leftstartpos - 1385); //About 45"
+        rightDrive.setTargetPosition(rightstartpos - 1385);
         telemetry.addData("Run", "2000");
         telemetry.update();
 
@@ -86,9 +86,5 @@ public class VoltageAutoTest extends LinearOpMode {
             idle();
         }
 
-        leftDrive.setPower(0.0);
-        rightDrive.setPower(0.0);
-        telemetry.update();
-        mineralArm.setPosition(1);
     }
 }
