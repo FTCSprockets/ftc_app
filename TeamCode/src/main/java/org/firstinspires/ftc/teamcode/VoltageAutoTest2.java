@@ -53,7 +53,7 @@ public class VoltageAutoTest2 extends LinearOpMode {
         // wait for start button.
 
         waitForStart();
-        sleep(3000);
+        sleep(2000);
         telemetry.addData("Mode", "running");
         telemetry.update();
 
@@ -62,7 +62,7 @@ public class VoltageAutoTest2 extends LinearOpMode {
 //        leftDrive.setPower(1);
 //        rightDrive.setPower(1);
 //
-//        sleep(4050);        // wait for 2 seconds.
+//        sleep(2000);        // wait for 2 seconds.
 //
 //        // set motor power to zero to stop motors.
 //
@@ -70,7 +70,7 @@ public class VoltageAutoTest2 extends LinearOpMode {
 //        rightDrive.setPower(0.0);
 
 
-        leftDrive.setTargetPosition(leftstartpos - 1385); //About 45"
+        leftDrive.setTargetPosition(leftstartpos - 1385); //About 45" acutally more like 47
         rightDrive.setTargetPosition(rightstartpos - 1385);
         telemetry.addData("Run", "2000");
         telemetry.update();

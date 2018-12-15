@@ -40,7 +40,6 @@ public class VoltageTeleOp extends VoltageBase
                 telemetry.update();
             }
             if (gamepad2.y) {
-                // move to about 162 degrees.
                 mineralArm.setPosition(mineralArm_Raised);
                 telemetry.addData("Servo Position", mineralArm.getPosition());
                 telemetry.update();
@@ -56,6 +55,7 @@ public class VoltageTeleOp extends VoltageBase
                 telemetry.update();
             }
 
+            //Hook attachment in End Game
             telemetry.addData("Lift Motor Position", liftMotor.getCurrentPosition());
             telemetry.update();
             if (!gamepad2.right_bumper) {
@@ -81,6 +81,14 @@ public class VoltageTeleOp extends VoltageBase
             }
             telemetry.addData("Target Position", liftMotor.getTargetPosition());
             telemetry.update();
+
+            //Backup hook attachment
+            if (gamepad2.dpad_left) {
+                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()+50);
+            }
+            if (gamepad2.dpad_right) {
+                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()-50);
+            }
         }
 
 //            //Hook attachment movement
