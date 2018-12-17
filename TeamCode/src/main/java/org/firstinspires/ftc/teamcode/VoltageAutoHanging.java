@@ -19,7 +19,8 @@ public class VoltageAutoHanging extends LinearOpMode {
     public Servo mineralArm;
     public final static double mineralArm_Ground = 0.0; //all the way down for servo
 
-    //2000 ticks = 65"; // about 100 ticks = 3.35"
+    //2000 ticks = 65"; // about 100 ticks = 3.35" each inch = 30.77
+    //motor 4:5 gearing ratio to wheel
 
     // called when init button is  pressed.
 
@@ -70,7 +71,7 @@ public class VoltageAutoHanging extends LinearOpMode {
 //        leftDrive.setPower(0.0);
 //        rightDrive.setPower(0.0);
 
-        liftMotor.setTargetPosition(liftStartPos+1020);
+        liftMotor.setTargetPosition(liftStartPos+3000);
         liftMotor.setPower(1);
         while (opModeIsActive() && liftMotor.isBusy());
         {
@@ -79,7 +80,7 @@ public class VoltageAutoHanging extends LinearOpMode {
         liftMotor.setPower(0);
         telemetry.addData("Mode", "power set, lift running to postion");
         telemetry.update();
-        sleep(1000);
+        sleep(2000);
 
         leftDrive.setTargetPosition(leftstartpos - 100);
         rightDrive.setTargetPosition(rightstartpos - 100);

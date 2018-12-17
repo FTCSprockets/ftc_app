@@ -11,11 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
                                                 // Teleops have the @TeleOp annotation
                                                 //Autonomous has the @Autonomous annotation
                                                 //Classes you don't want to show up on the driver's station, such as base support classes, annotate with @Disabled
-public class VoltageTeleOp extends VoltageBase
-{
+public class VoltageTeleOp extends VoltageBase {
     @Override
-    public void DefineOpMode ()
-    {
+    public void DefineOpMode() {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(1);
 
@@ -26,15 +24,14 @@ public class VoltageTeleOp extends VoltageBase
         telemetry.addData("Start Position", liftStartPosition);
         telemetry.update();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             //Tank Drive
-            leftDrive.setPower(-gamepad1.left_stick_y/2);
-            rightDrive.setPower(-gamepad1.right_stick_y/2);
+            leftDrive.setPower(-gamepad1.left_stick_y / 2);
+            rightDrive.setPower(-gamepad1.right_stick_y / 2);
 
 
             // Mineral arm servo movement
-            if(gamepad2.x) {
+            if (gamepad2.x) {
                 mineralArm.setPosition(mineralArm_Dump);
                 telemetry.addData("Servo Position", mineralArm.getPosition());
                 telemetry.update();
@@ -82,25 +79,17 @@ public class VoltageTeleOp extends VoltageBase
             telemetry.addData("Target Position", liftMotor.getTargetPosition());
             telemetry.update();
 
-            //Backup hook attachment
-            if (gamepad2.dpad_left) {
-                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()-50);
-            }
-            if (gamepad2.dpad_right) {
-                liftMotor.setTargetPosition(liftMotor.getCurrentPosition()+50);
-            }
-        }
-
-//            //Hook attachment movement
-//            if(gamepad2.left_bumper) {
-//                completeHookContract(0.8);
-//            }
-//
-//            else if(gamepad2.right_bumper) {
-//                completeHookExtend(0.8, stringInches);
-//            }
+////            //Hook attachment movement
+////            if(gamepad2.left_bumper) {
+////                completeHookContract(0.8);
+////            }
+////
+////            else if(gamepad2.right_bumper) {
+////                completeHookExtend(0.8, stringInches);
+////            }
 
             idle(); //put this at the end of larger while loops to let the software catch up with itself.
         }
     }
+}
 
