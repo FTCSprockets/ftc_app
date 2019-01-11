@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Claim Ground", group="Test")
@@ -14,10 +13,11 @@ public class VoltageAutoTest extends LinearOpMode {
     public DcMotor leftDrive;
     public DcMotor rightDrive;
     public DcMotor liftMotor;
+    public DcMotor mineralMotor;
 
-    //Declare Servos
-    public Servo mineralArm;
-    public final static double mineralArm_Ground = 0.0; //all the way down for servo
+//    //Declare Servos
+//    public Servo mineralArm;
+//    public final static double mineralArm_Ground = 0.0; //all the way down for servo
 
     //2000 ticks = 65"; // about 100 ticks = 3.35"
 
@@ -29,29 +29,33 @@ public class VoltageAutoTest extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
+        mineralMotor = hardwareMap.get(DcMotor.class, "mineralMotor");
 
-        mineralArm = hardwareMap.get(Servo.class, "mineralArm");
-        mineralArm.setDirection(Servo.Direction.REVERSE);
-        mineralArm.setPosition(mineralArm_Ground);
+//        mineralArm = hardwareMap.get(Servo.class, "mineralArm");
+//        mineralArm.setDirection(Servo.Direction.REVERSE);
+//        mineralArm.setPosition(mineralArm_Ground);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        mineralMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mineralMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mineralMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("Mode", "waiting");
         telemetry.update();
 
-         int leftstartpos = leftDrive.getCurrentPosition();
-         int rightstartpos = rightDrive.getCurrentPosition();
+        int leftstartpos = leftDrive.getCurrentPosition();
+        int rightstartpos = rightDrive.getCurrentPosition();
+        int mineralstartpos = mineralMotor.getCurrentPosition();
         // wait for start button.
-
         waitForStart();
         sleep(2000);
         telemetry.addData("Mode", "running");
@@ -77,7 +81,7 @@ public class VoltageAutoTest extends LinearOpMode {
 
         leftDrive.setPower(-1.0);
         rightDrive.setPower(-1.0);
-        liftMotor.setPower(.5);
+        liftMotor.setPower(0);
         telemetry.addData("Mode", "power set");
         telemetry.update();
 
@@ -86,13 +90,22 @@ public class VoltageAutoTest extends LinearOpMode {
             idle();
         }
 
-        mineralArm.setPosition(1);
+//        mineralArm.setPosition(1);
+
 
         leftDrive.setPower(0.0);
         rightDrive.setPower(0.0);
         telemetry.addData("Mode", "stopped driving");
         telemetry.update();
 
+        sleep(2000);
+
+        mineralMotor.setTargetPosition(mineralstartpos+610); //180 degrees
+        mineralMotor.setPower(1);
+        while (opModeIsActive() && leftDrive.isBusy() && rightDrive.isBusy());
+        {
+            idle();
+        }
 
 
     }

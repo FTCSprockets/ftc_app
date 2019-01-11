@@ -14,6 +14,7 @@ public class VoltageAutoHanging extends LinearOpMode {
     public DcMotor leftDrive;
     public DcMotor rightDrive;
     public DcMotor liftMotor;
+    public DcMotor mineralMotor;
 
     //Declare Servos
     public Servo mineralArm;
@@ -30,21 +31,25 @@ public class VoltageAutoHanging extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
+        mineralMotor = hardwareMap.get(DcMotor.class, "mineralMotor");
 
-        mineralArm = hardwareMap.get(Servo.class, "mineralArm");
-        mineralArm.setDirection(Servo.Direction.REVERSE);
-        mineralArm.setPosition(mineralArm_Ground);
+//        mineralArm = hardwareMap.get(Servo.class, "mineralArm");
+//        mineralArm.setDirection(Servo.Direction.REVERSE);
+//        mineralArm.setPosition(mineralArm_Ground);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        mineralMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mineralMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mineralMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("Mode", "waiting");
         telemetry.update();

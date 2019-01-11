@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -25,9 +24,10 @@ public abstract class VoltageBase extends LinearOpMode{
     public DcMotor leftDrive;
     public DcMotor rightDrive;
     public DcMotor liftMotor;
+    public DcMotor mineralMotor;
 
     //Declare Servos
-    public Servo mineralArm;
+//    public Servo mineralArm;
 
     //Declare Sensor for turning
     BNO055IMU imu;
@@ -70,21 +70,24 @@ public abstract class VoltageBase extends LinearOpMode{
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
+        mineralMotor = hardwareMap.get(DcMotor.class, "mineralMotor");
 
         //Map the Servos
-        mineralArm = hardwareMap.get(Servo.class, "mineralArm");
+//        mineralArm = hardwareMap.get(Servo.class, "mineralArm");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        mineralMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Don't move if they're not supposed to
         //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
        // rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
        // liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        mineralArm.setPosition(mineralArm_Ground);
+//        mineralArm.setPosition(mineralArm_Ground);
 
         //If Using Encoders
         leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -92,8 +95,11 @@ public abstract class VoltageBase extends LinearOpMode{
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//Encoder set to zero at complete contract position
 
+        mineralMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mineralMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//Encoder set to zero at complete contract position
+
         // Some of the servos are flipped, too
-        mineralArm.setDirection(Servo.Direction.REVERSE);
+//        mineralArm.setDirection(Servo.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         DefineOpMode();
@@ -298,13 +304,13 @@ public abstract class VoltageBase extends LinearOpMode{
         StopHook();
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    //Mineral Arm Method
-    public void mineralArmlowStop(){
-        mineralArm.setPosition(.20);
-    };
-    public void mineralArmHighStop() {
-        mineralArm.setPosition(.80);
-    }
+//    //Mineral Arm Method
+//    public void mineralArmlowStop(){
+//        mineralArm.setPosition(.20);
+//    };
+//    public void mineralArmHighStop() {
+//        mineralArm.setPosition(.80);
+//    }
 
 
     //Anthony from Catholic Master Builders way to turn w/ encoders

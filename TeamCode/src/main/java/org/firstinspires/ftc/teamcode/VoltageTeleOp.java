@@ -14,11 +14,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class VoltageTeleOp extends VoltageBase {
     @Override
     public void DefineOpMode() {
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mineralMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotor.setPower(1);
-
-        mineralArm.setPosition(mineralArm_Ground);
+        mineralMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        int mineralStartPos = mineralMotor.getCurrentPosition();
+//        mineralArm.setPosition(mineralArm_Ground);
         waitForStart();
+        liftMotor.setPower(1);
+        mineralMotor.setPower(1);
 
         int liftStartPosition = liftMotor.getCurrentPosition();
         telemetry.addData("Start Position", liftStartPosition);
@@ -26,31 +30,64 @@ public class VoltageTeleOp extends VoltageBase {
 
         while (opModeIsActive()) {
             //Tank Drive
-            leftDrive.setPower(-gamepad1.left_stick_y / 2);
-            rightDrive.setPower(-gamepad1.right_stick_y / 2);
+            leftDrive.setPower(-gamepad1.left_stick_y);
+            rightDrive.setPower(-gamepad1.right_stick_y);
 
 
-            // Mineral arm servo movement
+//            // Mineral arm servo movement
+//            if (gamepad2.x) {
+//                mineralArm.setPosition(mineralArm_Dump);
+//                telemetry.addData("Servo Position", mineralArm.getPosition());
+//                telemetry.update();
+//            }
+//            if (gamepad2.y) {
+//                mineralArm.setPosition(mineralArm_Raised);
+//                telemetry.addData("Servo Position", mineralArm.getPosition());
+//                telemetry.update();
+//            }
+//            if (gamepad2.b) {
+//                mineralArm.setPosition(mineralArm_Low);  // Set the servo to the new position
+//                telemetry.addData("Servo Position", mineralArm.getPosition());
+//                telemetry.update();
+//            }
+//            if (gamepad2.a) {
+//                mineralArm.setPosition(mineralArm_Ground);  // Set the servo to the new position
+//                telemetry.addData("Servo Position", mineralArm.getPosition());
+//                telemetry.update();
+//            }
+
+//            if (gamepad2.x) {
+//                mineralMotor.setPower(.8);
+//            }
+//            if (gamepad2.y) {
+//                mineralMotor.setPower(.9);
+//            }
+//            if (gamepad2.b) {
+//                mineralMotor.setPower(1);
+//            }
+
+
+//            //Mineral arm replaced w/ motor movement
+//           if(gamepad2.right_stick_y > 0.1 || gamepad2.right_stick_y <-0.1) {
+//               mineralMotor.setPower(-gamepad2.right_stick_y/3);
+//           } else {
+//               mineralMotor.setPower(0.8);
+//           }
+
+           //if you get the encoders to work
             if (gamepad2.x) {
-                mineralArm.setPosition(mineralArm_Dump);
-                telemetry.addData("Servo Position", mineralArm.getPosition());
-                telemetry.update();
+               mineralMotor.setTargetPosition(mineralStartPos+1000);
             }
             if (gamepad2.y) {
-                mineralArm.setPosition(mineralArm_Raised);
-                telemetry.addData("Servo Position", mineralArm.getPosition());
-                telemetry.update();
+                mineralMotor.setTargetPosition(mineralStartPos+800);
             }
             if (gamepad2.b) {
-                mineralArm.setPosition(mineralArm_Low);  // Set the servo to the new position
-                telemetry.addData("Servo Position", mineralArm.getPosition());
-                telemetry.update();
+                mineralMotor.setTargetPosition(mineralStartPos+300);
             }
             if (gamepad2.a) {
-                mineralArm.setPosition(mineralArm_Ground);  // Set the servo to the new position
-                telemetry.addData("Servo Position", mineralArm.getPosition());
-                telemetry.update();
+                mineralMotor.setTargetPosition(mineralStartPos);
             }
+
 
             //Hook attachment in End Game
             telemetry.addData("Lift Motor Position", liftMotor.getCurrentPosition());
@@ -79,14 +116,6 @@ public class VoltageTeleOp extends VoltageBase {
             telemetry.addData("Target Position", liftMotor.getTargetPosition());
             telemetry.update();
 
-////            //Hook attachment movement
-////            if(gamepad2.left_bumper) {
-////                completeHookContract(0.8);
-////            }
-////
-////            else if(gamepad2.right_bumper) {
-////                completeHookExtend(0.8, stringInches);
-////            }
 
             idle(); //put this at the end of larger while loops to let the software catch up with itself.
         }

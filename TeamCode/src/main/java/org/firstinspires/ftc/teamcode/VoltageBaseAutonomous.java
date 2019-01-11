@@ -12,7 +12,7 @@ public abstract class VoltageBaseAutonomous extends VoltageBase
 
     @Override
     public void DefineOpMode () {
-        mineralArm.setPosition(mineralArm_Ground);
+//        mineralArm.setPosition(mineralArm_Ground);
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
