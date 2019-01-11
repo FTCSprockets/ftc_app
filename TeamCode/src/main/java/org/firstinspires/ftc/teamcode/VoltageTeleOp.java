@@ -18,14 +18,16 @@ public class VoltageTeleOp extends VoltageBase {
         mineralMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mineralMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        int mineralStartPos = mineralMotor.getCurrentPosition();
 //        mineralArm.setPosition(mineralArm_Ground);
-        waitForStart();
-        liftMotor.setPower(1);
-        mineralMotor.setPower(1);
 
+        waitForStart();
+//        liftMotor.setPower(1);
+//        mineralMotor.setPower(1);
+
+        int mineralStartPos = mineralMotor.getCurrentPosition();
         int liftStartPosition = liftMotor.getCurrentPosition();
         telemetry.addData("Start Position", liftStartPosition);
+        telemetry.addData("Mineral Start Position", mineralStartPos);
         telemetry.update();
 
         while (opModeIsActive()) {
