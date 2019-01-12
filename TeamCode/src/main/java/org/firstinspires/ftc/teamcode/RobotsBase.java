@@ -64,7 +64,7 @@ public abstract class RobotsBase extends LinearOpMode
         ArmRaiser.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ClawThingy.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        armHelper.setPower(ArmRaiser.getPower());
+        armHelper.setPower(-ArmRaiser.getPower());
 
 
         DefineOpMode();
