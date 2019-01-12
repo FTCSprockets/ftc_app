@@ -21,8 +21,8 @@ public class VoltageTeleOp extends VoltageBase {
 //        mineralArm.setPosition(mineralArm_Ground);
 
         waitForStart();
-//        liftMotor.setPower(1);
-//        mineralMotor.setPower(1);
+        liftMotor.setPower(1);
+        mineralMotor.setPower(.15);
 
         int mineralStartPos = mineralMotor.getCurrentPosition();
         int liftStartPosition = liftMotor.getCurrentPosition();
@@ -78,13 +78,13 @@ public class VoltageTeleOp extends VoltageBase {
 
            //if you get the encoders to work
             if (gamepad2.x) {
-               mineralMotor.setTargetPosition(mineralStartPos+1000);
+               mineralMotor.setTargetPosition(mineralStartPos+500);
             }
             if (gamepad2.y) {
-                mineralMotor.setTargetPosition(mineralStartPos+800);
+                mineralMotor.setTargetPosition(mineralStartPos+400);
             }
             if (gamepad2.b) {
-                mineralMotor.setTargetPosition(mineralStartPos+300);
+                mineralMotor.setTargetPosition(mineralStartPos+100);
             }
             if (gamepad2.a) {
                 mineralMotor.setTargetPosition(mineralStartPos);
