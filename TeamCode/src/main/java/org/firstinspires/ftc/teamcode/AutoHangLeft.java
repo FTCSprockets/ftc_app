@@ -9,11 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(group = "Sprockets", name = "Basic Left")
 public class AutoHangLeft extends SprocketsBaseAutonomous
 {
-    public void DriveTheRobot ()
+    public void DriveTheRobot () throws InterruptedException
     {
         TurnLeftDegrees(AutonomousBaseSpeed, 45);
 
         DriveForwardsDistance(AutonomousBaseSpeed, 45);
+
+        ArmUpOrDown(-.2, 200);
 
         TurnRightDegrees(AutonomousBaseSpeed, 90);
 

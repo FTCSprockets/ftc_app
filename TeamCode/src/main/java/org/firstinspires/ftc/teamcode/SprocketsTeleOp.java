@@ -9,24 +9,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 /*
 
-Controls:
 
-GPAD 1 - Driver
-Left Stick Up/Down = left wheel forward/back
-Right Stick Up/Down = right wheel forward/back
-
-GPAD 2 - Arms
-Left Stick Up/Down = arms up/ down
-Right Stick Up/Down = arms extend/retract
 
  */
 
 
-@TeleOp (group = "Sprockets", name = "SrpktTeleOp")
+@TeleOp (group = "Sprockets", name = "SprocketTeleOp")
 public class SprocketsTeleOp extends RobotsBase
 {
     @Override
-    public void DefineOpMode ()
+    public void DefineOpMode() throws InterruptedException
     {
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -35,8 +27,32 @@ public class SprocketsTeleOp extends RobotsBase
 
         while (opModeIsActive())
         {
-            leftDrive.setPower(-gamepad1.left_stick_y/2);
-            rightDrive.setPower(-gamepad1.right_stick_y/2);
+            leftDrive.setPower(-gamepad1.left_stick_y);
+            rightDrive.setPower(-gamepad1.right_stick_y);
+
+            ArmRaiser.setPower(gamepad2.left_stick_y);
+
+
+            if (gamepad2.a)
+            {
+                LanderOpen();
+            }
+
+            if (gamepad2.b)
+            {
+                LanderClose();
+            }
+
+            if (gamepad2.x)
+            {
+                ClawOpen();
+            }
+
+            if (gamepad2.y)
+            {
+                ClawClosed();
+            }
+
 
             telemetry.update();
 

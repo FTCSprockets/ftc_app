@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import java.lang.InterruptedException;
 
 /**
  * Created by Benla on 10/14/2018.
@@ -18,10 +17,15 @@ public abstract class RobotsBase extends LinearOpMode
     public DcMotor leftDrive;
     public DcMotor rightDrive;
 
-    public Servo leftClaw;
-    public Servo rightClaw;
+    public DcMotor ArmRaiser;
+    public DcMotor ClawThingy;
+    public DcMotor armHelper;
 
-    public abstract void DefineOpMode();
+    public Servo LeftClaw;
+    public Servo RightClaw;
+
+
+    public abstract void DefineOpMode() throws InterruptedException;
 
     public static final int inchConstant = 22; // this is a little low, so add a few inches to any long-distance value.
 
@@ -32,12 +36,12 @@ public abstract class RobotsBase extends LinearOpMode
     public boolean RobotIsGoingForwards = true;
 
     public double LeftClawOpenPosition = 0;
-    public double LeftClawClosedPosition = .5;
-    public double LeftClawBackPosition = 1;
+    public double LeftClawClosedPosition = 1;
+
 
     public double RightClawOpenPosition = 1;
-    public double RightClawClosedPosition = .5;
-    public double RightClawBackPosition = 0;
+    public double RightClawClosedPosition = 0;
+
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -45,18 +49,23 @@ public abstract class RobotsBase extends LinearOpMode
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        //map
         leftDrive = hardwareMap.dcMotor.get("leftDrive");
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
+        ArmRaiser = hardwareMap.dcMotor.get("ArmRaiser");
+        ClawThingy = hardwareMap.dcMotor.get("Clawthingy");
+        armHelper = hardwareMap.dcMotor.get("armHelper");
 
-        leftClaw = hardwareMap.servo.get("leftClaw");
-        rightClaw = hardwareMap.servo.get("rightClaw");
-
+        LeftClaw = hardwareMap.servo.get("LeftClaw");
+        RightClaw = hardwareMap.servo.get("RightClaw");
 
         leftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        ArmRaiser.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        ClawThingy.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        armHelper.setPower(ArmRaiser.getPower());
+
 
         DefineOpMode();
     }
@@ -91,11 +100,12 @@ public abstract class RobotsBase extends LinearOpMode
         }
     }
 
-    public void OffTheLander ()
-    {
+    public void OffTheLander () throws InterruptedException {
+        ArmUpOrDown(.2, 200);
+
+        LanderOpen();
 
     }
-
 
     //Movement Methods
 
@@ -114,6 +124,32 @@ public abstract class RobotsBase extends LinearOpMode
     {
         leftDrive.setPower(speed);
         rightDrive.setPower(-speed);
+    }
+
+    public void DriveForwardsTime (long time)
+    {
+        DriveMotors(AutonomousBaseSpeed);
+        Thread.sleep(time);
+    }
+
+    public void DriveBackwardsTime (long time)
+    {
+        DriveMotors(-AutonomousBaseSpeed);
+        Thread.sleep(time);
+    }
+
+    public void TurnLeftTime (long time)
+    {
+        leftDrive.setPower(-AutonomousBaseSpeed);
+        rightDrive.setPower(AutonomousBaseSpeed);
+        Thread.sleep(time);
+    }
+
+    public void TurnRightTime (long time)
+    {
+        leftDrive.setPower(AutonomousBaseSpeed);
+        rightDrive.setPower(-AutonomousBaseSpeed);
+        Thread.sleep(time);
     }
 
     public void StopDriving ()
@@ -227,13 +263,46 @@ public abstract class RobotsBase extends LinearOpMode
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void ClawOut ()
-    {
 
+    //Arm methods
+
+    public void ArmUpOrDown (double power, long time) throws InterruptedException
+    {
+        ArmRaiser.setPower(power);
+        Thread.sleep (time);
+        ArmRaiser.setPower(0);
     }
 
-    public void DropMarker ()
-    {
+    public void DropMarker () throws InterruptedException {
 
+        ClawOpen();
+        ArmUpOrDown(-.2, 200);
+    }
+
+    public void LanderOpen () throws InterruptedException
+    {
+        ClawThingy.setPower(-.2);
+        Thread.sleep (110);
+        ClawThingy.setPower(0);
+    }
+
+    public void LanderClose () throws InterruptedException
+    {
+        ClawThingy.setPower(.2);
+        Thread.sleep (110);
+        ClawThingy.setPower(0);
+    }
+
+    public void ClawOpen ()
+    {
+        LeftClaw.setPosition(LeftClawOpenPosition);
+        RightClaw.setPosition(RightClawOpenPosition);
+    }
+
+    public void ClawClosed ()
+    {
+        LeftClaw.setPosition(LeftClawClosedPosition);
+        RightClaw.setPosition(RightClawClosedPosition);
     }
 }
+

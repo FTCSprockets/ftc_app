@@ -29,8 +29,60 @@ public class TrainingWheels extends LinearOpMode
 
         while (opModeIsActive())
         {
-            leftDrive.setPower(-gamepad1.left_stick_y);
+            leftDrive.setPower(-gamepad1.left_stick_y - .1);
             rightDrive.setPower(-gamepad1.right_stick_y);
+
+            if (gamepad1.x)
+            {
+                leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                leftDrive.setTargetPosition(220);
+                rightDrive.setTargetPosition(220);
+
+                leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(0.5);
+
+                while (leftDrive.isBusy() && rightDrive.isBusy())
+                {
+
+                }
+
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+
+                leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+            if (gamepad1.y)
+            {
+                leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                leftDrive.setTargetPosition(-90*3);
+                rightDrive.setTargetPosition(90*3);
+
+                leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(0.5);
+
+                while (leftDrive.isBusy() && rightDrive.isBusy())
+                {
+
+                }
+
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+
+                leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
 
             idle();
         }
