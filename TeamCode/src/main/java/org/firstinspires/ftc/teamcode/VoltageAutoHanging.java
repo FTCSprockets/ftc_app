@@ -106,5 +106,16 @@ public class VoltageAutoHanging extends LinearOpMode {
         rightDrive.setPower(0.0);
         telemetry.addData("Mode", "stopped driving");
         telemetry.update();
+
+        liftMotor.setTargetPosition(liftStartPos);
+        liftMotor.setPower(-1);
+        while (opModeIsActive() && liftMotor.isBusy());
+        {
+            idle();
+        }
+        liftMotor.setPower(0);
+        telemetry.addData("Mode", "power set, lift running to postion");
+        telemetry.update();
+        sleep(2000);
     }
 }

@@ -78,7 +78,9 @@ public class VoltageTeleOp extends VoltageBase {
 
            //if you get the encoders to work
             if (gamepad2.x) {
-               mineralMotor.setTargetPosition(mineralStartPos+500);
+                mineralMotor.setPower(.10);
+                mineralMotor.setTargetPosition(mineralStartPos+500);
+                mineralMotor.setPower(.15);
             }
             if (gamepad2.y) {
                 mineralMotor.setTargetPosition(mineralStartPos+400);
